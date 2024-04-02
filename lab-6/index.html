@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ITC 505 Lab 6</title>
+  <style>
+    body {
+      display: grid;
+      grid-template-columns: 1fr 3fr 1fr;
+      grid-template-rows: auto 1fr auto;
+      grid-template-areas:
+        "header header header"
+        "nav main ad"
+        "nav footer footer";
+      grid-gap: 10px;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      grid-area: header;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #e8c4a4;
+      padding: 10px;
+    }
+
+    header img {
+      height: 50px;
+      margin-right: 10px;
+    }
+
+    nav {
+      grid-area: nav;
+      background-color: #f0e2b4;
+      padding: 10px;
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav li {
+      margin-bottom: 5px;
+    }
+
+    nav a {
+      display: block;
+      padding: 5px;
+      background-color: #ddd;
+      text-decoration: none;
+      color: #333;
+    }
+
+    main {
+      grid-area: main;
+      padding: 10px;
+    }
+
+    aside {
+      grid-area: ad;
+      padding: 10px;
+    }
+
+    aside img {
+      width: 100%;
+    }
+
+    footer {
+      grid-area: footer;
+      background-color: #e8c4a4;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    #output {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .addendum {
+      background-color: #e8c4a4;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Sorting numbers</h1>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="#">The good parts of Java script- Part 1</a></li>
+      <li><a href="#">The good parts of Java script- Part 2</a></li>
+      <li><a href="#">The good parts of Java script- Part 3</a></li>
+    </ul>
+  </nav>
+  <main>
+    <h2>Enter the numbers to be sorted</h2>
+    <input type="text" id="input-box" placeholder="Enter a number">
+    <button id="add-button">Add Number</button>
+    <button id="sort-button">Sort Numbers</button>
+    <div id="output"></div>
+  </main>
+  <aside>
+    <p>Ad</p>
+    <a href="https://a.co/d/9cE4z3b">
+      <img src="https://m.media-amazon.com/images/I/7185IMvz88L._SL1500_.jpg" alt="Advertisement">
+    </a>
+  </aside>
+  <footer>
+    <div class="addendum">
+      <p>Problem: Sort an array of numbers</p>
+      <p>Solution: The JavaScript code uses the sort() method to sort the numbers array in ascending order.This method sorts the elements of an array in place and returns the sorted array. By default, the sort() method sorts the elements as strings according to the Unicode code point values.</p>
+      <p>Difficulties: None</p>
+      
+        <p>Last updated: 
+            <span id="lastModified"></span>
+        </p>
+    <script type="text/javascript">
+         var x = document.lastModified;
+         document.getElementById('lastModified').textContent = x;
+    </script>
+    </div>
+    <script src="jsfile.js"></script>
+  </footer>
+</body>
+</html>
