@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find your energy</title>
+  <link rel="stylesheet" href="adstyle.css">
+</head>
+<body>
+    <h1><center>ENERGY BALANCE</center></h1>
+    <p>Human beings contains two kinds of energy: masculine energy and feminine energy. Answer all the 10 questions. For each question two options are given. Choose one option, then you will be automatically navigated to next question. Start the game below and find your energy end the end of the game. </p>
+  <div class="container">
+    <h2>Find your energy </h2>
+    <div id="start-page">
+        <img src="https://tableforchange.com/wp-content/uploads/2019/06/0.jpg" alt="Energy Balance" style="width: 100%; max-width: 500px;">
+      <p><button onclick="startGame()">Start Game</button></p>
+    </div>
+    <div id="game-page" style="display: none;">
+      <div id="scenario"></div>
+      <div id="options">
+        <button onclick="selectOption('a')">Option A</button>
+        <button onclick="selectOption('b')">Option B</button>
+      </div>
+      </div>
+  </div>
+  <div id="result"></div>
+  <script src="adscript.js"></script>
+  <footer style="background-color: #f0f0f0; padding: 10px;">
+    <p>Last updated: 
+        <span id="lastModified"></span>
+    </p>
+    <p>Addendum:</p>
+    <ol>
+      <li><strong>Objective Understanding:</strong> I thoroughly examined the current code to comprehend its goals and structure, determining what needed to be improved.</li>
+      <li><strong>Creative Opportunities:</strong> Seeing that there might be more interaction, I made the decision to include consequences for every decision and show scores for masculinity and femininity.</li>
+      <li><strong>Implementation Plan:</strong> I described how the JavaScript code will be changed, with an emphasis on integrating score calculation, updating the `selectOption` function, and dynamically displaying the results.</li>
+      <li><strong>Difficulties Overcame:</strong> Difficulties included keeping score effectively and dynamically showing penalties while preserving code efficiency and organization.</li>
+      <li><strong>Problem-Solving Approach:</strong> To solve issues, I employed rigorous testing and iterative development, modifying the logic and code structure as necessary.</li>
+      <li><strong>Testing and Debugging:</strong> The code is thoroughly tested to ensure that it functions properly, with a focus on the game flow, score calculation, and consequence display. Issues were fixed with prompt debugging.</li>
+    <li><strong>Refinement and Optimization:</strong> Post-testing code was reviewed for clarity, efficiency, and improvements to the user experience. Structure and comments have been changed to make the text easier to read and manage.</li>
+    <li><strong>Conclusions and Thoughts:</strong> Stressed the value of careful design in interactive media. The secret was striking a balance between originality and usefulness. Overcoming obstacles served as a reminder of the importance of problem-solving and iterative development.</li>
+  
+    </ol>
+</footer>
+<script type="text/javascript">
+     var x = document.lastModified;
+     document.getElementById('lastModified').textContent = x;
+</script>
+</body>
+</html>
+
+
