@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Briem+Hand:wght@100..900&display=swap" rel="stylesheet">
+    <title>Lights Out Game</title>
+    <style>
+       h1{
+            text-align: center; /* Center the heading */
+            margin-top: 20px; /* Add top margin to separate from the board */
+            margin-bottom: 50px;
+            position:relative; /* Remove bottom margin to prevent extra space */
+            font-family: Briem Hand;
+            font-size: 50px;
+            position: fixed; /* Fix position of the heading */
+            top: 0; /* Align heading to the top */
+            width: 100%; /* Make heading full width */
+            background: linear-gradient(to right, rgb(220, 220, 139), rgb(50, 88, 103)); /* Set background color for the heading */
+            z-index: 2; /* Ensure heading stays above other elements */
+            text-decoration: dashed;
+       }
+        body {
+            background-color: #c18796; /* Set initial background color for the body */
+            display: flex;
+            flex-direction: column; /* Ensure elements stack vertically */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #container {
+            display: grid;
+            grid-template-columns: repeat(5, 60px); /* Increase the width of each cell */
+            grid-template-rows: repeat(5, 60px); /* Increase the height of each cell */
+            gap: 10px; /* Add gap between cells */
+            border: 2px solid black; /* Add border around the grid */
+            background-color: #fff; /* Set background color for the grid */
+            padding: 10px; /* Add padding inside the border */
+            margin-bottom: 20px; /* Add bottom margin to separate from the reset button */
+            margin-top: 100px; /* Add top margin to separate from the heading */
+        }
+
+        .cell {
+            width: 100%;
+            height: 100%;
+            background-color: white; /* Set initial cell color to white */
+            border: 1px solid black; /* Add border to each cell */
+        }
+
+        .cell.toggled {
+            background-color: #888; /* Set toggled cell color to grey */
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            shape-margin: 20%;
+        }
+
+        .reset-button-container {
+            text-align: center; /* Center the reset button */
+        }
+        
+        #addendum {
+            display: none; /* Hide addendum by default */
+            max-width: 50%;
+            background-color: #fff;
+            padding: 20px;
+            border: 2px solid black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
+        }
+
+        footer {
+            margin-top: 20px;
+            background-color: black; /* Change cursor to pointer when hovering over footer */
+            color: black;
+            width: 100%;
+            margin-bottom: 0px;
+            background: linear-gradient(to right, rgb(220, 220, 139), rgb(50, 88, 103));
+        }
+        #viewAddendumSection{
+            align-items: flex-end;
+
+        }
+       button:hover{
+        background-color: rgb(236, 210, 121);
+        outline: black;
+       }
+       
+    </style>
+</head>
+<body>
+    <h1><b>LIGHTS OUT</b></h1>
+    <div id="container"></div>
+    <div class="reset-button-container">
+        <button onclick="resetBoard()">Reset</button>
+    </div><div id="viewAddendumSection">
+            <button onclick="toggleAddendum()">View Addendum</button>
+        </div>
+        <div id="addendum">
+            <p>My goal in making this Lights Out game was to give the player an engaging, participatory experience. Below is a summary of my approach, inventive decisions, obstacles encountered, and realizations attained:</p>
+
+            <ul>
+                <li><b>First Setup:</b> I started by establishing the HTML file's fundamental structure and adding the required components, like the title, typefaces, and game board container.</li>
+                <li><b>Styling:</b> To create a simple and aesthetically pleasant layout, I stylized the game board, cells, reset button, and heading using CSS. To give the game a refined feel, I went with the Briem Hand font for the heading.</li>
+                <li><b>Dynamic Background Color:</b> I included the ability to change the body's background color whenever a cell is toggled in order to improve the visual experience. I limited the color palette to four (gray, pink, blue, and purple) in order to add variation and maintain the game's visual appeal.</li>
+            </ul>
+
+            <p><b>Challenges faced:</b></p>
+            <ul>
+                <li><b>Ensuring Solvability:</b> One difficulty was making sure that the game board's starting condition resulted in a solution that could be solved so that every cell could turn black.</li>
+                <li><b>Dynamic Background Color:</b> Putting the dynamic background color into practice was simple, but it took some trial and error to make sure it blended in well with the general layout and didn't conflict with the game's aspects.</li>
+            </ul>
+
+            <p><b>Insights gained:</b></p>
+            <ul>
+                <li>This website's design provides insights into a variety of topics, including the importance of user engagement through interactive games, the value of technical proficiency gained through JavaScript development, the dynamic nature of web elements, the importance of problem-solving skills in implementing game logic, and the value of user feedback for iterative improvements.</li>
+            </ul>
+        </div>
+    <footer>
+        <p>Last updated: 
+            <span id="lastModified"></span>
+        </p>
+        <script type="text/javascript">
+            var x = document.lastModified;
+            document.getElementById('lastModified').textContent = x;
+       </script>
+        
+    </footer>
+    <script>
+        const size = 5;
+        let cells = [];
+        let backgroundIndex = 0;
+        const backgroundColors = ["#888", "#ffcccc", "#cce6ff", "#e6ccff"]; // Grey, Pink, Blue, Purple
+
+        function createBoard() {
+            const container = document.getElementById("container");
+            for (let row = 0; row < size; row++) {
+                for (let col = 0; col < size; col++) {
+                    const cell = document.createElement("div");
+                    cell.classList.add("cell");
+                    cell.onclick = function() { toggleCell(row, col); };
+                    container.appendChild(cell);
+                    cells.push(cell);
+                }
+            }
+            // Set initial state randomly and ensure it's solvable
+            setSolvableInitialState();
+        }
+
+        function resetBoard() {
+            cells.forEach(cell => {
+                cell.classList.remove("toggled");
+            });
+            // Set new solvable initial state on reset
+            setSolvableInitialState();
+            toggleBackgroundColor(); // Toggle background color
+        }
+
+        function setSolvableInitialState() {
+            // Generate a random initial state
+            cells.forEach(cell => {
+                cell.classList.remove("toggled"); // Ensure all cells are white initially
+            });
+            // Toggle random cells to gray
+            for (let i = 0; i < size * size; i++) {
+                cells[Math.floor(Math.random() * cells.length)].classList.toggle("toggled");
+            }
+        }
+
+        function checkIfSolvable() {
+            // Copy the initial state to a temporary array
+            const tempCells = cells.map(cell => cell.classList.contains("toggled"));
+
+            // Simulate toggling cells to check if the state is solvable
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    if (tempCells[i * size + j]) {
+                        toggleNeighbors(tempCells, i, j);
+                    }
+                }
+            }
+
+            // Check if all cells are black in the temporary array
+            return tempCells.every(cell => !cell);
+        }
+
+        function toggleCell(row, col) {
+            const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+            cells[row * size + col].classList.toggle("toggled");
+            toggleNeighbors(cells, row, col);
+            toggleBackgroundColor(); // Toggle background color
+            checkWin();
+        }
+
+        function toggleNeighbors(cellsArray, row, col) {
+            const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+            directions.forEach(([dr, dc]) => {
+                const nr = row + dr;
+                const nc = col + dc;
+                if (nr >= 0 && nr < size && nc >= 0 && nc < size) {
+                    cellsArray[nr * size + nc].classList.toggle("toggled");
+                }
+            });
+        }
+
+        function toggleBackgroundColor() {
+            backgroundIndex = (backgroundIndex + 1) % backgroundColors.length;
+            document.body.style.backgroundColor = backgroundColors[backgroundIndex];
+        }
+
+        function checkWin() {
+            const isWin = cells.every(cell => cell.classList.contains("toggled"));
+            if (isWin) {
+                alert("You win!");
+            }
+        }
+
+        function toggleAddendum() {
+            var addendum = document.getElementById("addendum");
+            addendum.style.display = (addendum.style.display === "none") ? "block" : "none";
+        }
+
+        window.onload = function() {
+            createBoard();
+            var x = document.lastModified;
+            document.getElementById('lastModified').textContent = x;
+        };
+    </script>
+</body>
+</html>
